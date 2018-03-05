@@ -76,12 +76,12 @@ export default {
       ],
       loadingProducts: true,
       searchText: '',
-      numberOfListItems: 50
+      numberOfListItems: 40
     }
   },
   firebase: {
     products: {
-      source: db.ref('products').limitToFirst(80),
+      source: db.ref('products').limitToFirst(40),
       readyCallback: function () {
         this.loadingProducts = false
       }

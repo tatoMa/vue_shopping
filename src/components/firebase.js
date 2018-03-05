@@ -21,6 +21,12 @@ const firebaseApp = Firebase.initializeApp({
   messagingSenderId: '522353399891'
 })
 
+Firebase.auth().onAuthStateChanged((user) => {
+  if (user) {
+    this.$store.dispatch('autoSignIn', user)
+  }
+})
+
 // Export the database for components to use.
 // If you want to get fancy, use mixins or provide / inject to avoid redundant imports.
 export const db = firebaseApp.database()
