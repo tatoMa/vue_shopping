@@ -185,11 +185,15 @@ export default {
   },
   data () {
     return {
+      shoppingButton: false
     }
   },
   methods: {
     searchAppointment (text) {
       this.searchText = text
+    },
+    clickedShoppingButton () {
+      this.shoppingButton = true
     }
   }
 }
