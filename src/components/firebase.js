@@ -23,7 +23,8 @@ const firebaseApp = Firebase.initializeApp({
 
 Firebase.auth().onAuthStateChanged((user) => {
   if (user) {
-    this.$store.dispatch('autoSignIn', user)
+    // problems method need to fix
+    // this.$store.dispatch('autoSignIn', user)
   }
 })
 
