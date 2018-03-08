@@ -12,7 +12,7 @@
             <v-icon dark size="9em" class="mb-4">fas fa-user-circle</v-icon>
             <h1 class="white--text mb-2 display-1 text-xs-center">Getting Started</h1>
             <v-btn
-              flat
+              outline
               dark
               large
               v-for="item in menuItems"
@@ -184,6 +184,7 @@
 import Navigation from './Navigation'
 import Footer from './Footer'
 import Sharing from './Sharing'
+import {db} from '@/components/firebase.js'
 
 export default {
   name: 'Home',
@@ -209,11 +210,23 @@ export default {
       this.$router.push('/')
     }
   },
+  firebase: {
+    products: {
+      source: db.ref('products').limitToFirst(40),
+      readyCallback: function () {
+        this.loadingProducts = false
+      }
+      // Optional, allows you to handle any errors.
+      // cancelCallback (err) {
+      //   console.error(err)
+      // }
+    }
+  },
   computed: {
     menuItems () {
       let menuItems = [
         {icon: 'fas fa-user-plus', title: 'Sign up', link: '/signup'},
-        {icon: 'lock_open', title: 'Sign in', link: '/signin'}
+        {icon: 'fas fa-unlock', title: 'Sign in', link: '/signin'}
       ]
       if (this.userIsAuthenticated) {
         menuItems = [
