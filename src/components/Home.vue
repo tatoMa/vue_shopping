@@ -9,18 +9,27 @@
             justify-center
             class="white--text"
           >
-            <router-link to="/products">
-              <img src="http://icons.veryicon.com/256/System/Kameleon/Online%20Shopping.png" alt="Vuetify.js" height="150">
-            </router-link>
+            <v-icon dark size="9em" class="mb-4">fas fa-user-circle</v-icon>
             <h1 class="white--text mb-2 display-1 text-xs-center">Getting Started</h1>
-            <div class="subheading mb-3 text-xs-center">Powered by Vuetify</div>
             <v-btn
-              class="indigo mt-4"
+              flat
               dark
               large
-              to="/products"
-            >
-              Get Started
+              v-for="item in menuItems"
+              :key="item.title"
+              :to="item.link">
+              <v-icon left dark>{{ item.icon }}</v-icon>
+              {{ item.title }}
+
+            </v-btn>
+            <v-btn
+              v-if="userIsAuthenticated"
+              flat
+              dark
+              large
+              @click="onLogout">
+              <v-icon left dark>exit_to_app</v-icon>
+              Logout
             </v-btn>
           </v-layout>
         </v-parallax>
@@ -100,14 +109,14 @@
           <v-layout column align-center justify-center>
             <div class="headline white--text mb-3 text-xs-center">Web development has never been easier</div>
             <em>Kick-start your application today</em>
-            <v-btn
-              class="indigo mt-5"
-              dark
-              large
-              to="/products"
-            >
-              Get Started
-            </v-btn>
+            <!--<v-btn-->
+              <!--class="indigo mt-5"-->
+              <!--dark-->
+              <!--large-->
+              <!--to="/products"-->
+            <!--&gt;-->
+              <!--Get Started-->
+            <!--</v-btn>-->
           </v-layout>
         </v-parallax>
       </section>
@@ -194,6 +203,27 @@ export default {
     },
     clickedShoppingButton () {
       this.shoppingButton = true
+    },
+    onLogout () {
+      this.$store.dispatch('logout')
+      this.$router.push('/')
+    }
+  },
+  computed: {
+    menuItems () {
+      let menuItems = [
+        {icon: 'fas fa-user-plus', title: 'Sign up', link: '/signup'},
+        {icon: 'lock_open', title: 'Sign in', link: '/signin'}
+      ]
+      if (this.userIsAuthenticated) {
+        menuItems = [
+          {icon: 'person', title: 'Profile', link: '/profile'}
+        ]
+      }
+      return menuItems
+    },
+    userIsAuthenticated () {
+      return this.$store.getters.user !== null && this.$store.getters.user !== undefined
     }
   }
 }
