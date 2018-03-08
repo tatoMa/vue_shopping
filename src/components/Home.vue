@@ -2,7 +2,7 @@
   <v-app light>
     <v-content>
       <section>
-        <v-parallax src="http://maxpixel.freegreatpicture.com/static/photo/1x/Bar-Night-Man-Dark-Bokeh-Lights-People-Store-2595778.jpg" height="450">
+        <v-parallax :src="require('@/assets/home1.jpg')" height="450">
           <v-layout
             column
             align-center
@@ -105,7 +105,7 @@
       </section>
 
       <section>
-        <v-parallax src="https://images.pexels.com/photos/290595/pexels-photo-290595.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb" height="400">
+        <v-parallax :src="require('@/assets/home2.jpg')" height="400">
           <v-layout column align-center justify-center>
             <div class="headline white--text mb-3 text-xs-center">Web development has never been easier</div>
             <em>Kick-start your application today</em>
