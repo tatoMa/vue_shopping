@@ -93,16 +93,12 @@
 </template>
 
 <script>
-import Navigation from './Navigation'
 import Footer from './Footer'
-import Sharing from './Sharing'
 
 export default {
   name: 'Home',
   components: {
-    'navigation': Navigation,
-    'footer_components': Footer,
-    'sharing': Sharing
+    'footer_components': Footer
   },
   data () {
     return {

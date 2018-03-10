@@ -24,9 +24,10 @@
             </v-btn>
             <v-btn
               v-if="userIsAuthenticated"
-              flat
+              outline
               dark
               large
+              color="error"
               @click="onLogout">
               <v-icon left dark>exit_to_app</v-icon>
               Logout
@@ -181,17 +182,13 @@
 </template>
 
 <script>
-import Navigation from './Navigation'
 import Footer from './Footer'
-import Sharing from './Sharing'
 import {db} from '@/components/firebase.js'
 
 export default {
   name: 'Home',
   components: {
-    'navigation': Navigation,
-    'footer_components': Footer,
-    'sharing': Sharing
+    'footer_components': Footer
   },
   data () {
     return {

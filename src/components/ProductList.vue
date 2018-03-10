@@ -2,9 +2,9 @@
   <div>
     <navigation @searchRecords="searchAppointment"></navigation>
 <!--grid layout-->
-    <v-progress-linear v-if="loadingProducts" :indeterminate="loadingProducts"></v-progress-linear>
+    <v-progress-linear v-show="loadingProducts" :indeterminate="loadingProducts"></v-progress-linear>
     <!--<v-slide-x-transition>-->
-    <v-layout column mt-2 v-if="!loadingProducts && !closeList">
+    <v-layout column mt-2 v-show="!loadingProducts">
       <v-flex xs12 md10 offset-md1>
         <v-card>
           <v-container fluid grid-list-md>
@@ -18,8 +18,8 @@
                   <!--<router-link :to="'/products/'+card.ID">-->
                   <v-card-media
                     :src="imageUrl+(card.quantity*6)"
-                    height="200px"
-                    @click="getScrollYPosition(), getItemDataFromProductList(card), closeList=!closeList"
+                    height="180px"
+                    @click="getScrollYPosition(), getItemDataFromProductList(card), getWidth(), closeList=!closeList, itemClicked=!itemClicked"
                   >
                     <v-container fill-height fluid>
                       <v-layout fill-height>
@@ -42,7 +42,7 @@
                   </v-card-actions>
                 </v-card>
               </v-flex>
-              <h2 class="red--text" v-if="searchedApts.length == 0">NO RESULT FOUND</h2>
+              <h2 class="red--text" v-show="searchedApts.length == 0">NO RESULT FOUND</h2>
             </v-layout>
           </v-container>
         </v-card>
@@ -52,22 +52,87 @@
     <!--<p>{{ products }}</p>-->
     <!--<sharing></sharing>-->
     <!--<v-slide-x-transition>-->
-    <v-layout mt-2 column v-if="!loadingProducts && closeList">
-      <v-flex xs12 md10 offset-md1>
+    <v-navigation-drawer
+      v-model="itemClicked"
+      app
+      temporary
+      :width="deviceWidth"
+      dark
+    >
+      <v-layout column v-show="!loadingProducts && closeList">
         <v-card>
-          <v-container fluid grid-list-md>
+          <v-container grid-list-md>
             <v-btn
-              large outline @click="closeList=!closeList, searchText=''" class="mb-2 ml-0 pr-2"
+              large outline @click="closeList=!closeList, searchText='', deviceWidth=0, itemClicked=!itemClicked" class="mb-2 ml-0 pr-2"
             >
               <v-icon size="16px" class="mr-3">fas fa-chevron-left</v-icon>
               Back
             </v-btn>
-            <v-card-media :src="imageUrl+(item.quantity*6)" height="350px">
+            <!--<v-carousel>-->
+              <!--&lt;!&ndash;:src="require('@/assets/home1.jpg')"&ndash;&gt;-->
+              <!--<v-carousel-item-->
+                <!--v-for="(item,i) in items"-->
+                <!--:src="getItemImageUrl" :key="i"-->
+                <!--lazy-->
+                <!--dark-->
+              <!--&gt;-->
+                <!--<p class="display-2">{{ item.product_name }}</p>-->
+              <!--</v-carousel-item>-->
+            <!--</v-carousel>-->
+            <v-card-media :src="imageUrl+(item.quantity*6)" height="250px">
+              <p class="display-2">{{ item.product_name }}</p>
             </v-card-media>
+            <v-layout>
+              <v-flex xs12>
+                <v-card>
+                  <v-container fluid v-bind="{ [`grid-list-xs`]: true }">
+                    <v-layout row wrap>
+                      <v-flex
+                        xs4 sm4 md3
+                        v-for="n in 6"
+                        :key="n"
+                      >
+                        <v-card flat tile>
+                          <v-card-media
+                            :src="`https://unsplash.it/150/300?image=${Math.floor(Math.random() * 100) + 1}`"
+                            height="130px"
+                          >
+                          </v-card-media>
+                        </v-card>
+                      </v-flex>
+                    </v-layout>
+                  </v-container>
+                </v-card>
+              </v-flex>
+            </v-layout>
             <v-card-title>
               <div>
                 <div class="headline mb-0">{{ item.product_name }}</div>
-                <div class="display-1">{{ item.price }} </div>
+                <v-flex xs12>
+                  <div class="display-1">{{ item.price }} </div>
+                </v-flex>
+                <v-layout>
+                  <v-flex xs3>
+                    <v-select
+                      :items="sizeSelection"
+                      label="Size"
+                      single-line
+                    ></v-select>
+                  </v-flex>
+                  <v-flex xs3>
+                    <v-select
+                      :items="sizeSelection"
+                      label="Quantity"
+                      single-line
+                    ></v-select>
+                  </v-flex>
+                  <v-flex  class="text-xs-right">
+                    <v-btn color="success">
+                      <v-icon size="16px" class="mr-3">fas fa-cart-plus</v-icon>
+                      ADD TO CART
+                    </v-btn>
+                  </v-flex>
+                </v-layout>
                 <v-divider></v-divider>
                 <br/>
                 <div>
@@ -81,21 +146,33 @@
               </div>
             </v-card-title>
             <v-divider></v-divider>
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn color="success">
-                <v-icon size="16px" class="mr-3">fas fa-cart-plus</v-icon>
-                ADD TO CART
-              </v-btn>
-              <v-btn color="success">
-                <v-icon size="16px" class="mr-3">fas fa-dollar-sign</v-icon>
-                BUY IT NOW
-              </v-btn>
-            </v-card-actions>
+            <v-btn
+              large outline @click="closeList=!closeList, searchText='', deviceWidth=0, itemClicked=!itemClicked" class="mb-2 ml-0 pr-2"
+            >
+              <v-icon size="16px" class="mr-3">fas fa-chevron-left</v-icon>
+              Back
+            </v-btn>
+            <!--<v-card-actions>-->
+              <!--<v-btn-->
+                <!--outline @click="closeList=!closeList, searchText='', itemClicked=!itemClicked"-->
+              <!--&gt;-->
+                <!--<v-icon size="16px" class="mr-3">fas fa-chevron-left</v-icon>-->
+                <!--Back-->
+              <!--</v-btn>-->
+              <!--<v-spacer></v-spacer>-->
+              <!--<v-btn color="success">-->
+                <!--<v-icon size="16px" class="mr-3">fas fa-cart-plus</v-icon>-->
+                <!--ADD TO CART-->
+              <!--</v-btn>-->
+              <!--<v-btn color="success">-->
+                <!--<v-icon size="16px" class="mr-3">fas fa-dollar-sign</v-icon>-->
+                <!--BUY IT NOW-->
+              <!--</v-btn>-->
+            <!--</v-card-actions>-->
           </v-container>
         </v-card>
-      </v-flex>
-    </v-layout>
+      </v-layout>
+    </v-navigation-drawer>
     <!--</v-slide-x-transition>-->
     <footer_components></footer_components>
   </div>
@@ -105,14 +182,12 @@
 import {db} from '@/components/firebase.js'
 import Navigation from './Navigation'
 import Footer from './Footer'
-import Sharing from './Sharing'
 
 export default {
   name: 'ProductList',
   components: {
     'navigation': Navigation,
-    'footer_components': Footer,
-    'sharing': Sharing
+    'footer_components': Footer
   },
   data () {
     return {
@@ -134,7 +209,27 @@ export default {
       },
       closeList: false,
       show: false,
-      scrollYPosition: 0
+      scrollYPosition: 0,
+      itemClicked: false,
+      deviceWidth: 0,
+      items: [
+        {
+          src: 'https://vuetifyjs.com/static/doc-images/carousel/squirrel.jpg'
+        },
+        {
+          src: 'https://vuetifyjs.com/static/doc-images/carousel/sky.jpg'
+        },
+        {
+          src: 'https://vuetifyjs.com/static/doc-images/carousel/bird.jpg'
+        },
+        {
+          src: 'https://vuetifyjs.com/static/doc-images/carousel/planet.jpg'
+        }
+      ],
+      sizeSelection: [
+        { text: '1' },
+        { text: '2' },
+        { text: '3' }]
     }
   },
   firebase: {
@@ -157,7 +252,7 @@ export default {
     getItemDataFromProductList (item) {
       this.item = item
       if (this.scrollYPosition > 170) {
-        window.scrollTo(0, 170)
+        // window.scrollTo(0, 170)
       }
       // console.log(window.scrollY)
     },
@@ -168,6 +263,10 @@ export default {
     backToListWithSavedYPosition () {
       window.scrollTo(0, this.scrollYPosition)
       this.scrollYPosition = 0
+    },
+    getWidth () {
+      this.deviceWidth = window.innerWidth
+      console.log('width', this.deviceWidth)
     }
   },
   computed: {
@@ -178,8 +277,18 @@ export default {
         )
       }.bind(this)
       )
+    },
+    getItemImageUrl () {
+      if (this.item.quantity === 0 || this.item.quantity == null) {
+        return this.imageUrl + (40 * 6)
+      } else {
+        return this.imageUrl + (this.item.quantity * 6)
+      }
     }
   }
+  // created () {
+  //   this.getWidth()
+  // }
 }
 </script>
 
