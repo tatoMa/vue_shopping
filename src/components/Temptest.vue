@@ -42,18 +42,18 @@
     </v-navigation-drawer>
 <!--Tool Bar-->
     <div>
-      <v-toolbar color="indigo" dark tabs>
+      <v-toolbar color="indigo" dark tabs dense>
         <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
         <v-toolbar-title>Welcome</v-toolbar-title>
         <v-spacer></v-spacer>
-        <v-btn icon class="mr-1">
-          <v-icon>search</v-icon>
-        </v-btn>
-        <v-btn icon class="mr-4">
+        <v-btn icon class="mr-4" v-if="userIsAuthenticated">
           <v-badge color="orange">
             <span slot="badge" dark small><div>6</div></span>
               <v-icon size="1.5em" >fas fa-shopping-cart</v-icon>
           </v-badge>
+        </v-btn>
+        <v-btn icon class="mr-4" v-else>
+            <v-icon size="1.5em" >fas fa-shopping-cart</v-icon>
         </v-btn>
         <v-tabs
           color="indigo"
@@ -119,6 +119,11 @@ export default {
   methods: {
     searchAppointment (text) {
       this.searchText = text
+    }
+  },
+  computed: {
+    userIsAuthenticated () {
+      return this.$store.getters.user !== null && this.$store.getters.user !== undefined
     }
   }
 }
