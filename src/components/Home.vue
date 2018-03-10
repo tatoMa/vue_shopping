@@ -2,7 +2,7 @@
   <v-app light>
     <v-content>
       <section>
-        <v-parallax src="http://maxpixel.freegreatpicture.com/static/photo/1x/Bar-Night-Man-Dark-Bokeh-Lights-People-Store-2595778.jpg" height="450">
+        <v-parallax :src="require('@/assets/home1.jpg')" height="450">
           <v-layout
             column
             align-center
@@ -12,7 +12,7 @@
             <v-icon dark size="9em" class="mb-4">fas fa-user-circle</v-icon>
             <h1 class="white--text mb-2 display-1 text-xs-center">Getting Started</h1>
             <v-btn
-              flat
+              outline
               dark
               large
               v-for="item in menuItems"
@@ -24,9 +24,10 @@
             </v-btn>
             <v-btn
               v-if="userIsAuthenticated"
-              flat
+              outline
               dark
               large
+              color="error"
               @click="onLogout">
               <v-icon left dark>exit_to_app</v-icon>
               Logout
@@ -105,7 +106,7 @@
       </section>
 
       <section>
-        <v-parallax src="https://images.pexels.com/photos/290595/pexels-photo-290595.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb" height="400">
+        <v-parallax :src="require('@/assets/home2.jpg')" height="400">
           <v-layout column align-center justify-center>
             <div class="headline white--text mb-3 text-xs-center">Web development has never been easier</div>
             <em>Kick-start your application today</em>
@@ -181,16 +182,13 @@
 </template>
 
 <script>
-import Navigation from './Navigation'
 import Footer from './Footer'
-import Sharing from './Sharing'
+import {db} from '@/components/firebase.js'
 
 export default {
   name: 'Home',
   components: {
-    'navigation': Navigation,
-    'footer_components': Footer,
-    'sharing': Sharing
+    'footer_components': Footer
   },
   data () {
     return {
@@ -209,11 +207,23 @@ export default {
       this.$router.push('/')
     }
   },
+  firebase: {
+    products: {
+      source: db.ref('products').limitToFirst(40),
+      readyCallback: function () {
+        this.loadingProducts = false
+      }
+      // Optional, allows you to handle any errors.
+      // cancelCallback (err) {
+      //   console.error(err)
+      // }
+    }
+  },
   computed: {
     menuItems () {
       let menuItems = [
         {icon: 'fas fa-user-plus', title: 'Sign up', link: '/signup'},
-        {icon: 'lock_open', title: 'Sign in', link: '/signin'}
+        {icon: 'fas fa-unlock', title: 'Sign in', link: '/signin'}
       ]
       if (this.userIsAuthenticated) {
         menuItems = [

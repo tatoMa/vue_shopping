@@ -44,6 +44,8 @@
     <v-toolbar
       color="indigo"
       dark
+      dense
+      flat
     >
       <!--<v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>-->
       <!--<v-flex xs4>-->
@@ -57,6 +59,7 @@
             solo-inverted
             flat
             v-model="searchText"
+            class="ml-2"
           ></v-text-field>
         </v-flex>
         <v-flex xs2 sm1 class="text-xs-center">
