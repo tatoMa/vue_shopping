@@ -4,11 +4,23 @@
 <!--grid layout-->
     <v-progress-linear v-show="loadingProducts" :indeterminate="loadingProducts"></v-progress-linear>
     <!--<v-slide-x-transition>-->
-    <v-layout column mt-2 v-show="!loadingProducts">
+    <v-layout column mt-2 v-show="!loadingProducts" v-scroll="onScroll">
       <v-flex xs12 md10 offset-md1>
         <v-card>
           <v-container fluid grid-list-md>
             <v-layout row wrap>
+              <v-btn
+                fab
+                bottom
+                right
+                fixed
+                flat
+                color="deep-orange accent-3"
+                @click.native.stop="goToTop()"
+                v-if="offsetTop>150"
+              >
+                <v-icon style="opacity:0.9">fas fa-angle-up</v-icon>
+              </v-btn>
               <v-flex
                 xs6 sm4 md3
                 v-for="card in searchedApts"
@@ -19,7 +31,7 @@
                   <v-card-media
                     :src="imageUrl+(card.quantity*6)"
                     height="180px"
-                    @click="getScrollYPosition(), getItemDataFromProductList(card), getWidth(), closeList=!closeList, itemClicked=!itemClicked"
+                    @click="getItemDataFromProductList(card), getWidth(), closeList=!closeList"
                   >
                     <v-container fill-height fluid>
                       <v-layout fill-height>
@@ -52,8 +64,9 @@
     <!--<p>{{ products }}</p>-->
     <!--<sharing></sharing>-->
     <!--<v-slide-x-transition>-->
+<!--Item info detail page--------------------------------------->
     <v-navigation-drawer
-      v-model="itemClicked"
+      v-model="closeList"
       app
       temporary
       :width="deviceWidth"
@@ -63,7 +76,7 @@
         <v-card>
           <v-container grid-list-md>
             <v-btn
-              large outline @click="closeList=!closeList, searchText='', deviceWidth=0, itemClicked=!itemClicked" class="mb-2 ml-0 pr-2"
+              large outline @click="closeList=!closeList, searchText='', deviceWidth=0" class="mb-2 ml-0 pr-2"
             >
               <v-icon size="16px" class="mr-3">fas fa-chevron-left</v-icon>
               Back
@@ -147,7 +160,7 @@
             </v-card-title>
             <v-divider></v-divider>
             <v-btn
-              large outline @click="closeList=!closeList, searchText='', deviceWidth=0, itemClicked=!itemClicked" class="mb-2 ml-0 pr-2"
+              large outline @click="closeList=!closeList, searchText='', deviceWidth=0" class="mb-2 ml-0 pr-2"
             >
               <v-icon size="16px" class="mr-3">fas fa-chevron-left</v-icon>
               Back
@@ -193,11 +206,6 @@ export default {
     return {
       // grid
       imageUrl: 'https://picsum.photos/500/',
-      cards: [
-        { title: 'Pre-fab homes', src: 'https://vuetifyjs.com/static/doc-images/cards/house.jpg', flex: 12 },
-        { title: 'Favorite road trips', src: 'https://vuetifyjs.com/static/doc-images/cards/road.jpg', flex: 6 },
-        { title: 'Best airlines', src: 'https://vuetifyjs.com/static/doc-images/cards/plane.jpg', flex: 6 }
-      ],
       loadingProducts: true,
       searchText: '',
       numberOfListItems: 40,
@@ -208,28 +216,28 @@ export default {
         product_info_long: ''
       },
       closeList: false,
-      show: false,
-      scrollYPosition: 0,
-      itemClicked: false,
+      // scrollYPosition: 0,
+      // itemClicked: false,
       deviceWidth: 0,
-      items: [
-        {
-          src: 'https://vuetifyjs.com/static/doc-images/carousel/squirrel.jpg'
-        },
-        {
-          src: 'https://vuetifyjs.com/static/doc-images/carousel/sky.jpg'
-        },
-        {
-          src: 'https://vuetifyjs.com/static/doc-images/carousel/bird.jpg'
-        },
-        {
-          src: 'https://vuetifyjs.com/static/doc-images/carousel/planet.jpg'
-        }
-      ],
+      // items: [
+      //   {
+      //     src: 'https://vuetifyjs.com/static/doc-images/carousel/squirrel.jpg'
+      //   },
+      //   {
+      //     src: 'https://vuetifyjs.com/static/doc-images/carousel/sky.jpg'
+      //   },
+      //   {
+      //     src: 'https://vuetifyjs.com/static/doc-images/carousel/bird.jpg'
+      //   },
+      //   {
+      //     src: 'https://vuetifyjs.com/static/doc-images/carousel/planet.jpg'
+      //   }
+      // ],
       sizeSelection: [
         { text: '1' },
         { text: '2' },
-        { text: '3' }]
+        { text: '3' }],
+      offsetTop: 0
     }
   },
   firebase: {
@@ -245,25 +253,31 @@ export default {
     }
   },
   methods: {
+    onScroll (e) {
+      this.offsetTop = window.pageYOffset || document.documentElement.scrollTop
+    },
     searchAppointment (text) {
       this.searchText = text
       this.closeList = false
     },
     getItemDataFromProductList (item) {
       this.item = item
-      if (this.scrollYPosition > 170) {
-        // window.scrollTo(0, 170)
-      }
+      // if (this.scrollYPosition > 170) {
+      //   // window.scrollTo(0, 170)
+      // }
       // console.log(window.scrollY)
     },
-    getScrollYPosition () {
-      this.scrollYPosition = window.scrollY
-      console.log(this.scrollYPosition)
+    goToTop () {
+      window.scrollTo(0, 0)
     },
-    backToListWithSavedYPosition () {
-      window.scrollTo(0, this.scrollYPosition)
-      this.scrollYPosition = 0
-    },
+    // getScrollYPosition () {
+    //   this.scrollYPosition = window.scrollY
+    //   console.log(this.scrollYPosition)
+    // },
+    // backToListWithSavedYPosition () {
+    //   window.scrollTo(0, this.scrollYPosition)
+    //   this.scrollYPosition = 0
+    // },
     getWidth () {
       this.deviceWidth = window.innerWidth
       console.log('width', this.deviceWidth)
@@ -277,14 +291,14 @@ export default {
         )
       }.bind(this)
       )
-    },
-    getItemImageUrl () {
-      if (this.item.quantity === 0 || this.item.quantity == null) {
-        return this.imageUrl + (40 * 6)
-      } else {
-        return this.imageUrl + (this.item.quantity * 6)
-      }
     }
+    // getItemImageUrl () {
+    //   if (this.item.quantity === 0 || this.item.quantity == null) {
+    //     return this.imageUrl + (40 * 6)
+    //   } else {
+    //     return this.imageUrl + (this.item.quantity * 6)
+    //   }
+    // }
   }
   // created () {
   //   this.getWidth()

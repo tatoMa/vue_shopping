@@ -79,9 +79,6 @@
 </template>
 
 <script>
-import Navigation from './Navigation'
-import Footer from './Footer'
-import Sharing from './Sharing'
 import Home from './Home'
 import ProductList from './ProductList'
 import About from './About'
@@ -89,9 +86,6 @@ import About from './About'
 export default {
   name: 'Testing',
   components: {
-    'navigation': Navigation,
-    'footer_components': Footer,
-    'sharing': Sharing,
     'home': Home,
     'productList': ProductList,
     'about': About
