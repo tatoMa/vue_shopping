@@ -7,6 +7,7 @@ import ProductList from '@/components/ProductList'
 import Product from '@/components/Product'
 import About from '@/components/About'
 import Test from '@/components/Temptest'
+import ShoppingCart from '@/components/ShoppingCart'
 
 import Profile from '@/components/User/Profile'
 import Signup from '@/components/User/Signup'
@@ -23,7 +24,7 @@ const router = new Router({
     },
     {
       path: '*',
-      redirect: Test
+      redirect: '/'
     },
     {
       path: '/products',
@@ -60,6 +61,11 @@ const router = new Router({
       path: '/signin',
       name: 'Signin',
       component: Signin
+    },
+    {
+      path: '/cart',
+      name: 'ShoppingCart',
+      component: ShoppingCart
     }
   ]
   // mode: 'history'

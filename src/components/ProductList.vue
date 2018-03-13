@@ -71,16 +71,26 @@
       temporary
       :width="deviceWidth"
       dark
+      class="pb-0 mb-0"
     >
       <v-layout column v-show="!loadingProducts && closeList">
         <v-card>
           <v-container grid-list-md>
+            <v-layout>
             <v-btn
-              large outline @click="closeList=!closeList, searchText='', deviceWidth=0" class="mb-2 ml-0 pr-2"
+              large outline @click="closeList=!closeList, searchText='', deviceWidth=0" class="mb-2 ml-1 pr-2"
             >
               <v-icon size="16px" class="mr-3">fas fa-chevron-left</v-icon>
               Back
             </v-btn>
+            <v-spacer></v-spacer>
+            <v-btn icon class="mr-4" to="/cart">
+              <v-badge color="orange">
+                <span slot="badge" dark small><div>{{shopCart.length}}</div></span>
+                <v-icon size="1.5em" >fas fa-shopping-cart</v-icon>
+              </v-badge>
+            </v-btn>
+            </v-layout>
             <!--<v-carousel>-->
               <!--&lt;!&ndash;:src="require('@/assets/home1.jpg')"&ndash;&gt;-->
               <!--<v-carousel-item-->
@@ -140,7 +150,7 @@
                     ></v-select>
                   </v-flex>
                   <v-flex  class="text-xs-right">
-                    <v-btn color="success">
+                    <v-btn color="success" @click="addToCart">
                       <v-icon size="16px" class="mr-3">fas fa-cart-plus</v-icon>
                       ADD TO CART
                     </v-btn>
@@ -210,6 +220,7 @@ export default {
       searchText: '',
       numberOfListItems: 40,
       item: {
+        ID: 0,
         product_name: '',
         quantity: 0,
         manufactory: '',
@@ -250,6 +261,12 @@ export default {
       // cancelCallback (err) {
       //   console.error(err)
       // }
+    },
+    shopCart: {
+      source: db.ref('shopCart'),
+      readyCallback: function () {
+        // this.loadingProducts = false
+      }
     }
   },
   methods: {
@@ -281,15 +298,21 @@ export default {
     getWidth () {
       this.deviceWidth = window.innerWidth
       console.log('width', this.deviceWidth)
+    },
+    addToCart () {
+      this.$firebaseRefs.shopCart.push({
+        ID: this.item.ID
+      })
+      console.log(this.item.ID)
     }
   },
   computed: {
     searchedApts () {
-      return this.products.filter(function (item) {
+      return this.products.filter(item => {
         return (
           item.product_name.toLowerCase().match(this.searchText.toLowerCase())
         )
-      }.bind(this)
+      }
       )
     }
     // getItemImageUrl () {
