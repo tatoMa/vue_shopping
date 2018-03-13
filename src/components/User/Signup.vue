@@ -1,15 +1,14 @@
 <template>
-  <v-container>
+  <div>
     <v-layout row v-if="error">
       <v-flex xs12 sm6 offset-sm3>
         <app-alert @dismissed="onDismissed" :text="error.message"></app-alert>
       </v-flex>
     </v-layout>
-    <v-layout row>
-      <v-flex xs12 sm6 offset-sm3>
+    <v-layout>
+      <v-flex xs12 sm8 md4 offset-sm2 offset-md4>
         <v-card>
           <v-card-text>
-            <v-container>
               <form @submit.prevent="onSignup">
                 <v-layout row>
                   <v-flex xs12>
@@ -47,7 +46,7 @@
                 <v-layout row>
                   <v-flex xs12>
                     <div class="text-xs-center">
-                    <v-btn round type="submit" :disabled="loading" :loading="loading">
+                    <v-btn flat class="success" type="submit" :disabled="loading" :loading="loading">
                       Sign up
                       <v-icon right>lock_open</v-icon>
                       <span slot="loader" class="custom-loader">
@@ -55,33 +54,37 @@
                        </span>
                     </v-btn>
                     </div>
+                    <v-divider></v-divider>
                     <div class="text-xs-center">
-                      <v-btn round class="red" dark :disabled="loading" :loading="loading" @click.prevent="onSigninGoogle">Login with Google
-                        <v-icon right dark>lock_open</v-icon>
+                      <v-btn flat class="red" :disabled="loading" :loading="loading" @click.prevent="onSigninGoogle">Login with Google
+                        <v-icon right>lock_open</v-icon>
                         <span slot="loader" class="custom-loader">
                         <v-icon light>cached</v-icon>
                        </span>
                       </v-btn>
                     </div>
+                    <v-divider></v-divider>
                     <div class="text-xs-center">
-                      <v-btn round primary dark :disabled="loading" :loading="loading" @click.prevent="onSigninFacebook">Login with Facebook
-                        <v-icon right dark>lock_open</v-icon>
+                      <v-btn flat primary :disabled="loading" :loading="loading" @click.prevent="onSigninFacebook">Login with Facebook
+                        <v-icon right>lock_open</v-icon>
                         <span slot="loader" class="custom-loader">
                         <v-icon light>cached</v-icon>
                        </span>
                       </v-btn>
                     </div>
+                    <v-divider></v-divider>
                     <div class="text-xs-center">
-                      <v-btn round dark :disabled="loading" :loading="loading" @click.prevent="onSigninGithub">Login with Github
-                        <v-icon right dark>lock_open</v-icon>
+                      <v-btn flat :disabled="loading" :loading="loading" @click.prevent="onSigninGithub">Login with Github
+                        <v-icon right>lock_open</v-icon>
                         <span slot="loader" class="custom-loader">
                         <v-icon light>cached</v-icon>
                        </span>
                       </v-btn>
                     </div>
+                    <v-divider></v-divider>
                     <div class="text-xs-center">
-                      <v-btn round info dark :disabled="loading" :loading="loading" @click.prevent="onSigninTwitter">Login with Twitter
-                        <v-icon right dark>lock_open</v-icon>
+                      <v-btn flat info :disabled="loading" :loading="loading" @click.prevent="onSigninTwitter">Login with Twitter
+                        <v-icon right>lock_open</v-icon>
                         <span slot="loader" class="custom-loader">
                         <v-icon light>cached</v-icon>
                        </span>
@@ -90,12 +93,11 @@
                   </v-flex>
                 </v-layout>
               </form>
-            </v-container>
           </v-card-text>
         </v-card>
       </v-flex>
     </v-layout>
-  </v-container>
+  </div>
 </template>
 
 <script>
