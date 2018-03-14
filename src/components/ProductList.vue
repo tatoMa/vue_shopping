@@ -68,7 +68,6 @@
     <v-navigation-drawer
       v-model="closeList"
       app
-      temporary
       :width="deviceWidth"
       dark
       class="pb-0 mb-0"
