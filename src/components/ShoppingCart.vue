@@ -37,10 +37,10 @@
               <template v-for="(product, index) in products">
               <!--<v-subheader v-if="menuInfo">{{ menuInfo }}</v-subheader>-->
                 <v-list-tile  v-if="product.ID === item.ID" avatar :key="item.ID" @click="">
-                  <v-list-tile-avatar tile size="70" class="pr-3 mt-0">
+                  <v-list-tile-avatar tile size="58" class="pt-3">
                     <img :src="'https://picsum.photos/500/'+(product.quantity*6)">
                   </v-list-tile-avatar>
-                  <v-list-tile-content>
+                  <v-list-tile-content class="pl-2">
                     <v-list-tile-title v-html="product.product_name"></v-list-tile-title>
                     <v-list-tile-sub-title v-html="product.Product_info_short"></v-list-tile-sub-title>
                     <v-list-tile-sub-title style="color: darkorange" v-html="product.price"></v-list-tile-sub-title>
@@ -102,19 +102,14 @@
         </v-stepper-content>
       </v-stepper-items>
     </v-stepper>
-    <footer_components></footer_components>
   </div>
 </template>
 
 <script>
-import Footer from './Footer'
 import {db} from '@/components/firebase.js'
 
 export default {
   name: 'ShoppingCart',
-  components: {
-    'footer_components': Footer
-  },
   data () {
     return {
       FinishedSteps: 0,

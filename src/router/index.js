@@ -6,7 +6,7 @@ import Home from '@/components/Home'
 import ProductList from '@/components/ProductList'
 import Product from '@/components/Product'
 import About from '@/components/About'
-import Test from '@/components/Temptest'
+// import Test from '@/components/Temptest'
 import ShoppingCart from '@/components/ShoppingCart'
 
 import Profile from '@/components/User/Profile'
@@ -18,7 +18,7 @@ Vue.use(Router)
 const router = new Router({
   routes: [
     {
-      path: '/home',
+      path: '/',
       name: 'Home',
       component: Home
     },
@@ -41,11 +41,11 @@ const router = new Router({
       name: 'Product',
       component: Product
     },
-    {
-      path: '/',
-      name: 'Test',
-      component: Test
-    },
+    // {
+    //   path: '/',
+    //   name: 'Test',
+    //   component: Test
+    // },
     {
       path: '/profile',
       name: 'Profile',

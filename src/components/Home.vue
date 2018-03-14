@@ -177,19 +177,15 @@
         </v-container>
       </section>
     </v-content>
-    <footer_components></footer_components>
+    <!--<footer_components></footer_components>-->
   </v-app>
 </template>
 
 <script>
-import Footer from './Footer'
 import {db} from '@/components/firebase.js'
 
 export default {
   name: 'Home',
-  components: {
-    'footer_components': Footer
-  },
   data () {
     return {
       shoppingButton: false
