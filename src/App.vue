@@ -1,14 +1,25 @@
 <template>
   <v-app>
     <v-content>
-      <router-view/>
+      <toolbar></toolbar>
+      <keep-alive>
+        <!--<router-view/>-->
+      </keep-alive>
+      <footerbar></footerbar>
     </v-content>
   </v-app>
 </template>
 
 <script>
+import Toolbar from '@/components/Toolbar'
+import Footerbar from '@/components/Footer'
+
 export default {
-  name: 'App'
+  name: 'App',
+  components: {
+    'toolbar': Toolbar,
+    'footerbar': Footerbar
+  }
 }
 </script>
 

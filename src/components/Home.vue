@@ -9,7 +9,7 @@
             justify-center
             class="white--text"
           >
-            <v-icon dark size="9em" class="mb-4">fas fa-user-circle</v-icon>
+            <v-icon dark size="9em" class="mb-4">account_circle</v-icon>
             <h1 class="white--text mb-2 display-1 text-xs-center">Getting Started</h1>
             <v-btn
               outline
@@ -27,7 +27,7 @@
               outline
               dark
               large
-              color="error"
+              color="orange darken-3"
               @click="onLogout">
               <v-icon left dark>exit_to_app</v-icon>
               Logout
@@ -177,19 +177,15 @@
         </v-container>
       </section>
     </v-content>
-    <footer_components></footer_components>
+    <!--<footer_components></footer_components>-->
   </v-app>
 </template>
 
 <script>
-import Footer from './Footer'
 import {db} from '@/components/firebase.js'
 
 export default {
   name: 'Home',
-  components: {
-    'footer_components': Footer
-  },
   data () {
     return {
       shoppingButton: false
@@ -222,8 +218,8 @@ export default {
   computed: {
     menuItems () {
       let menuItems = [
-        {icon: 'fas fa-user-plus', title: 'Sign up', link: '/signup'},
-        {icon: 'fas fa-unlock', title: 'Sign in', link: '/signin'}
+        {icon: 'lock_open', title: 'Sign in', link: '/signin'},
+        {icon: 'person_add', title: 'Sign up', link: '/signup'}
       ]
       if (this.userIsAuthenticated) {
         menuItems = [

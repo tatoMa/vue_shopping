@@ -3,10 +3,13 @@ import App from './App'
 import router from './router'
 import Vuetify from 'vuetify'
 import { store } from './store'
+import * as firebase from 'firebase'
 import 'vuetify/dist/vuetify.min.css'
 var VueFire = require('vuefire')
+const AlertCmp = () => import('./components/Shared/Alert.vue')
 
 Vue.use(VueFire)
+Vue.component('app-alert', AlertCmp)
 
 Vue.use(Vuetify, { theme: {
   primary: '#2098ed',
@@ -25,5 +28,12 @@ new Vue({
   el: '#app',
   router,
   store,
+  created () {
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        this.$store.dispatch('autoSignIn', user)
+      }
+    })
+  },
   render: h => h(App)
 })
