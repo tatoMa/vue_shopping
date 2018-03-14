@@ -7,6 +7,7 @@
       dark
       absolute
     >
+      <!--user profile with avatar, info and buttons-->
       <v-card flat v-if="userIsAuthenticated">
         <v-card-media
           class="white--text"
@@ -49,6 +50,7 @@
         </v-card-actions>
         <v-divider></v-divider>
       </v-card>
+      <!--profile of side menu for non-signed-in users as guest menu-->
       <v-card v-if="!userIsAuthenticated">
         <v-card-media
           class="white--text"
@@ -86,19 +88,10 @@
           </v-flex>
         </v-card-actions>
       </v-card>
-      <!--<v-list class="pa-1">-->
-        <!--<v-list-tile avatar tag="div">-->
-          <!--<v-list-tile-avatar>-->
-            <!--<img src="https://randomuser.me/api/portraits/men/85.jpg" >-->
-          <!--</v-list-tile-avatar>-->
-          <!--<v-list-tile-content>-->
-            <!--<v-list-tile-title>{{ $store.getters.user.email }}</v-list-tile-title>-->
-          <!--</v-list-tile-content>-->
-        <!--</v-list-tile>-->
-      <!--</v-list>-->
+      <!--navigation menu-->
       <v-list class="pt-0" dense>
         <v-divider light></v-divider>
-        <v-list-tile v-for="item in sideBarNavigation" :key="item.title" v-if="userIsAuthenticated">
+        <v-list-tile v-for="item in sideBarNavigation" :key="item.title" v-if="userIsAuthenticated" :to="item.link">
           <v-list-tile-action>
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-tile-action>
@@ -107,6 +100,7 @@
           </v-list-tile-content>
         </v-list-tile>
         <v-divider></v-divider>
+        <!--function menu-->
         <v-list-tile v-for="item in sideBarfunctions" :key="item.title">
           <v-list-tile-action>
             <v-icon>{{ item.icon }}</v-icon>
@@ -117,7 +111,7 @@
         </v-list-tile>
       </v-list>
     </v-navigation-drawer>
-<!--Tool Bar-->
+<!--Main Tool Bar-->
     <div>
       <v-toolbar color="indigo" dark tabs dense>
         <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
@@ -132,6 +126,7 @@
         <v-btn icon class="mr-4" v-else to="/signin">
             <v-icon size="1.5em" >fas fa-shopping-cart</v-icon>
         </v-btn>
+        <!--main tabs for navigation-->
         <v-tabs
           color="indigo"
           slot="extension"
@@ -139,41 +134,46 @@
           grow
         >
           <v-tabs-slider color="yellow"></v-tabs-slider>
-          <v-tab v-for="item in tabItems" :key="item">
-            {{ item }}
+          <v-tab v-for="item in tabItems" :to="item.link" :key="item.index">
+            {{ item.name }}
           </v-tab>
         </v-tabs>
       </v-toolbar>
-      <v-tabs-items v-model="tab">
-        <v-tab-item v-for="(item, index) in tabItems" :key="item">
-          <v-card flat>
-            <component v-bind:is="components[index]"></component>
-          </v-card>
-        </v-tab-item>
-      </v-tabs-items>
+      <router-view/>
     </div>
   </v-app>
 </template>
 
 <script>
-import Home from './Home'
-import ProductList from './ProductList'
-import About from './About'
+// import Home from './Home'
+// import ProductList from './ProductList'
+// import About from './About'
 import {db} from '@/components/firebase.js'
 
 export default {
   name: 'Testing',
-  components: {
-    'home': Home,
-    'productList': ProductList,
-    'about': About
-  },
+  // components: {
+  //   'home': Home,
+  //   'productList': ProductList,
+  //   'about': About
+  // },
   data () {
     return {
       signInUser: '',
       tab: null,
       tabItems: [
-        'Home', 'shopping', 'About'
+        {
+          name: 'Home',
+          link: '/'
+        },
+        {
+          name: 'Shopping',
+          link: '/products'
+        },
+        {
+          name: 'About',
+          link: '/about'
+        }
       ],
       text: [
         'web tab1', 'shopping t2', 'videos t3'
@@ -184,9 +184,21 @@ export default {
       drawer: false,
       mini: false,
       sideBarNavigation: [
-        { title: 'Home', icon: 'dashboard' },
-        { title: 'Shopping', icon: 'shop' },
-        { title: 'About', icon: 'question_answer' }
+        {
+          title: 'Home',
+          icon: 'dashboard',
+          link: '/'
+        },
+        {
+          title: 'Shopping',
+          icon: 'shop',
+          link: '/products'
+        },
+        {
+          title: 'About',
+          icon: 'question_answer',
+          link: '/about'
+        }
       ],
       sideBarfunctions: [
         { title: 'Setting', icon: 'settings' },

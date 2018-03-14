@@ -197,20 +197,20 @@
       </v-layout>
     </v-navigation-drawer>
     <!--</v-slide-x-transition>-->
-    <footer_components></footer_components>
+    <!--<footer_components></footer_components>-->
   </div>
 </template>
 
 <script>
 import {db} from '@/components/firebase.js'
 import Navigation from './Navigation'
-import Footer from './Footer'
+// import Footer from './Footer'
 
 export default {
   name: 'ProductList',
   components: {
-    'navigation': Navigation,
-    'footer_components': Footer
+    'navigation': Navigation
+    // 'footer_components': Footer
   },
   data () {
     return {
