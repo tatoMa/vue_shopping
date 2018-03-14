@@ -139,7 +139,12 @@
           </v-tab>
         </v-tabs>
       </v-toolbar>
-      <router-view/>
+      <!--router view-->
+      <!--<transition name="fade" mode="out-in">-->
+        <keep-alive include="ProductList">
+          <router-view/>
+        </keep-alive>
+      <!--</transition>-->
     </div>
   </v-app>
 </template>
