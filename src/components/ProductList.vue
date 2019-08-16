@@ -268,6 +268,9 @@ export default {
       }
     }
   },
+  mounted () {
+    console.log('mounted called.')
+  },
   methods: {
     onScroll (e) {
       this.offsetTop = window.pageYOffset || document.documentElement.scrollTop
