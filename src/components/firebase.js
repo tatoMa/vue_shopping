@@ -13,12 +13,12 @@ import Firebase from 'firebase'
 // export default Firebase.database()
 
 const firebaseApp = Firebase.initializeApp({
-  apiKey: 'AIzaSyAUBE_nV5_nwZo11dt3LLD7uczrvdRNfeg',
+  apiKey: '',
   authDomain: 'newtest-ad2c2.firebaseapp.com',
   databaseURL: 'https://newtest-ad2c2.firebaseio.com',
   projectId: 'newtest-ad2c2',
   storageBucket: 'newtest-ad2c2.appspot.com',
-  messagingSenderId: '522353399891'
+  messagingSenderId: ''
 })
 
 // Firebase.auth().onAuthStateChanged((user) => {
