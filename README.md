@@ -1,6 +1,6 @@
-# my_project
+# Shopping vue project
 
-> A Vue.js project
+### [Link](https://newtest-ad2c2.firebaseapp.com/#/)
 
 ## Build Setup
 
